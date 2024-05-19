@@ -1,19 +1,29 @@
 from turtle import Turtle
 import random
 
-class Obstacles(Turtle):
+STARTING_MOVE_DISTANCE = 5
+MOVE_INCRIMENT = 10
+class Obstacles:
     def __init__(self):
-        super().__init__()
-        self.penup()
-        self.goto(300, random.randint(-300 , 300))
-        r = random.randint(0, 255)
-        g = random.randint(0, 255)
-        b = random.randint(0, 255)
-        self.color(r, g, b)
-        self.shape("square")
-        self.setheading(180)
-        self.shapesize(stretch_wid=1, stretch_len=4)
+        self.obstacles = []
+        self.speed = STARTING_MOVE_DISTANCE
     
     def move(self):
-        self.forward(random.randint(10, 50))
+        """Move the obsticle by a random distance"""
+        for obs in self.obstacles:
+            obs.forward(-self.speed)
     
+    def create_obstacles(self):
+        """Creates obstacles on the screen"""
+        chance = random.randint(1,10)
+        if chance == 1:
+            new_obs = Turtle("square")
+            new_obs.penup()
+            new_obs.color(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            new_obs.goto(280, random.randint(-250 , 250))
+            new_obs.shapesize(stretch_wid=1, stretch_len=2)
+            self.obstacles.append(new_obs)
+    
+    def level_up(self):
+        """Increases the speed of the obstacles"""
+        self.speed += MOVE_INCRIMENT
